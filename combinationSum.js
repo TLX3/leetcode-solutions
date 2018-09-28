@@ -15,7 +15,7 @@ let combinationSum = (nums, target) => {
   return matches;
 }
 
-let combinationSum3 = (nums, target) => {
+let combinationSum3 = (k, target) => {
   let matches = [];
   let backtrack = (start, remainder, current) => {
     if (remainder === 0 && current.length === k) {
@@ -32,4 +32,15 @@ let combinationSum3 = (nums, target) => {
   }
   backtrack(0, n, []);
   return matches;
+}
+
+let combinationSum4 = (nums, target) => {
+  let dp = new Array(target + 1).fill(0);
+  dp[0] = 1;
+  for (let i = 1; i < dp.length; i++) {
+    for (let j = 0; j <= nums.length; j++) {
+      if (i - nums[j] >= 0) dp[i] += dp[i - nums[j]];
+    }
+  }
+  return dp[target];
 }
