@@ -79,16 +79,17 @@ let countSort = (arr) => {
 }
 
 // Radix sort
-let radixSort = arr => {
-  const maxNum = Math.max(...arr) * 10;
-  let divisor = 10;
-  while (divisor < maxNum) {
-    let buckets = [...Array(10)].map(() => []);
-    for (let num of arr) {
-      buckets[Math.floor((num % divisor) / (divisor / 10))].push(num);
+let radixSort = (arr) => {
+  const base = 10;
+  let divider = 1;
+  let max = -Infinity;
+  while (divider === 1 || divider <= max) {
+    const buckets = [...Array(10)].map(() => []);
+    for (const val of arr) {
+      buckets[Math.floor(val / divider) % base].push(val);
+      max = Math.max(max, val);
     }
-    arr = [].concat.apply([], buckets);
-    divisor *= 10;
+    arr = [].concat(...buckets);
+    divider *= base;
   }
-  return arr;
 };
