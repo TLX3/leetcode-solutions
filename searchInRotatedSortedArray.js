@@ -3,7 +3,7 @@ let searchInRotatedArray = (arr, target) => {
   let high = arr.length - 1;
   while (lo < high) {
     let mid = Math.floor((lo + high) / 2);
-    if (arr[mid] < arr[high]) {
+    if (arr[mid] > arr[high]) {
       lo = mid + 1;
     } else {
       high = mid;
