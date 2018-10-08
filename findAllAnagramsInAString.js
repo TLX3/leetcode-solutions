@@ -1,26 +1,28 @@
-let findAllAnagrams = (s, p) => {
-  let map = {}
-  let result = []
-  let slidingWindow = {}
-  for (let i = 0; i < p.length; i++) {
-    map[p.charAt(i)] = map[p.charAt(i)] ? map[p.charAt(i)] + 1 : 1
-  }
-  let left = 0, right = 0
-  while (right < s.length) {
-    if (map[s.charAt(right)]) {
-      if (slidingWindow[s.charAt(right)] && map[s.charAt(right)] === 1) {
-        left += 1
-      }
-      if (right - left + 1 === s.length) {
-        result.push(left)
-        left += 1
-      }
-    } else {
-      left = right + 1
-      slidingWindow = {}
-    }
-    slidingWindow[s.charAt(right)] = right + 1
-    right += 1
-  }
-  return result
+let findAnagrams = (s, p) => {
+let results = [];
+if (s == null || s.length == 0 || p == null || p.length == 0) return results;
+let begin = 0, end = 0;
+let map = {};
+for (let char of p.split('')) {
+  map[char] = map[char] ? map[char] + 1 : 1;
 }
+let counter = Object.keys(map).length;
+while (end < s.length) {
+  let char = s.charAt(end);
+  if (map[char] !== undefined) {
+    map[char]--;
+    if (map[char] === 0) counter--;
+  }
+  while (counter === 0) {
+    if (end - begin + 1 == p.length) results.push(begin);
+    let temp = s.charAt(begin);
+    if (map[temp] !== undefined) {
+      map[temp]++;
+      if (map[temp] > 0) counter++;
+    }
+    begin++;
+  }
+  end++;
+}
+return results;
+};
