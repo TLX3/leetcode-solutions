@@ -9,6 +9,9 @@ let characterReplacement = (s, k) => {
     map[char] = map[char] ? map[char] + 1 : 1;
     if (counter < map[char]) counter = map[char];
     end++;
+    // length of substring - number of times 
+    // of the maximum occurring character in the substring <= k
+    // equivalent to removing all values that are not most common
     while (end - begin - counter > k) {
       let temp = s.charAt(begin);
       map[temp]--;
