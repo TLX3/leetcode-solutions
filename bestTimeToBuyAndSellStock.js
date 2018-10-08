@@ -1,3 +1,5 @@
+// buy + sell stocks for max profit
+// 1 transaction
 let maxProfit = (prices) => {
   if (!prices.length) return 0;
   i10 = 0;
@@ -8,8 +10,7 @@ let maxProfit = (prices) => {
   }
   return i10;
 }
-// T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
-// T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+// arbitrary transactions
 let maxProfit2 = (prices) => {
   if (!prices.length) return 0;
   let ik0 = 0;
@@ -20,10 +21,7 @@ let maxProfit2 = (prices) => {
   }
   return ik0;
 }
-// T[i][2][0] = max(T[i-1][2][0], T[i-1][2][1] + prices[i])
-// T[i][2][1] = max(T[i-1][2][1], T[i-1][1][0] - prices[i])
-// T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])
-// T[i][1][1] = max(T[i-1][1][1], -prices[i])
+// 2 transactions
 let maxProfit3 = (prices) => {
   if (!prices.length) return 0;
   let i10 = 0, i11 = -Infinity;
@@ -36,7 +34,7 @@ let maxProfit3 = (prices) => {
   }
   return i20;
 }
-
+// k most transactions
 let maxProfit4 = (k, prices) => {
   if (!prices.length || k === 0) return 0;
   if (k >= prices.length) {
@@ -58,4 +56,29 @@ let maxProfit4 = (k, prices) => {
     }
   }
   return Tik0[k];
+}
+// with cooldown and arbitrary transactions
+let maxProfit5 = (prices) => {
+  if (!prices.length) return 0;
+  let ik0 = 0;
+  let ik1 = -Infinity;
+  let preIk0 = 0;
+  for (let price of prices) {
+    let oldIk0 = ik0;
+    ik0 = Math.max(ik0, ik1 + price);
+    ik1 = Math.max(ik1, preIk0 - price);
+    preIk0 = oldIk0;
+  }
+  return ik0;
+}
+// with transaction fee and arbitrary transactions
+let maxProfit6 = (prices) => {
+  if (!prices.length) return 0;
+  let ik0 = 0;
+  let ik1 = -Infinity;
+  for (let price of prices) {
+    ik0 = Math.max(ik0, ik1 + price);
+    ik1 = Math.max(ik1, ik0 - price - fee);
+  }
+  return ik0;
 }
