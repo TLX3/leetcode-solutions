@@ -1,18 +1,29 @@
-let checkInclusion = (s1, s2) => {
-  let n = s1.length;
-  let m = s2.length;
-  if (n > m) return false;
-  let counts = {};
-  'abcdefghijklmnopqrstuvwxyz'.split('').map(char => counts[char] = 0);
-  for (let i = 0; i < n; i++) {
-    counts[s1.charAt(i)]++;
-    counts[s2.charAt(i)]--;
+let checkInclusion = (p, s) => {
+  if (s == null || s.length == 0 || p == null || p.length == 0) return false
+  let begin = 0, end = 0;
+  let map = {};
+  for (let char of p.split('')) {
+    map[char] = map[char] ? map[char] + 1 : 1;
   }
-  if (Object.keys(counts).every(char => counts[char] === 0)) return true;
-  for (let i = n; i < m; i++) {
-    counts[s2.charAt(i)]--;
-    counts[s2.charAt(i - n)]++;
-    if (Object.keys(counts).every(char => counts[char] === 0)) return true;
+  let counter = Object.keys(map).length;
+  while (end < s.length) {
+    let char = s.charAt(end);
+    if (map[char] !== undefined) {
+      map[char]--;
+      if (map[char] === 0) counter--;
+    }
+    while (counter === 0) {
+      if (end - begin + 1 == p.length) { 
+        return true;
+      }
+      let temp = s.charAt(begin);
+      if (map[temp] !== undefined) {
+        map[temp]++;
+        if (map[temp] > 0) counter++;
+      }
+      begin++;
+    }
+    end++;
   }
   return false;
 }
